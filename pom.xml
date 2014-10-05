@@ -8,5 +8,12 @@
   <artifactId>pine-push-server-worker</artifactId>
   <version>1.0-SNAPSHOT</version>
 
+  <dependencies>
+    <dependency>
+      <groupId>com.rabbitmq</groupId>
+      <artifactId>amqp-client</artifactId>
+      <version>3.3.5</version>
+    </dependency>
+  </dependencies>
 
 </project>
