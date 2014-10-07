@@ -4,22 +4,19 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.QueueingConsumer;
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
+import org.nhnnext.Config;
 
 import java.io.IOException;
 
 public class RabbitMQ {
-    private static final String CONFIG_FILENAME = "application.conf";
-
     private static RabbitMQ instance = new RabbitMQ();
 
     private Channel channel;
     private QueueingConsumer consumer;
 
     private RabbitMQ() {
-        Config config = ConfigFactory.load(CONFIG_FILENAME);
         ConnectionFactory factory = new ConnectionFactory();
+        Config config = Config.getInstance();
         factory.setHost(config.getString("rabbitmq.host"));
         factory.setPort(config.getInt("rabbitmq.port"));
 

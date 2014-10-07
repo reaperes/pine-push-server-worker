@@ -24,35 +24,18 @@ public class Main {
         while (true) {
             QueueingConsumer.Delivery delivery = consumer.nextDelivery();
             JSONObject jsonDelivery = new JSONObject(new String(delivery.getBody()));
-            if (jsonDelivery.has("type") && handlerMap.containsKey(jsonDelivery.getString("type"))) {
-                BaseHandler handler = handlerMap.get(jsonDelivery.getString("type"));
-                handler.handle(jsonDelivery);
-            } else {
-                System.out.println("Error: " + jsonDelivery.toString());
+            try {
+                if (jsonDelivery.has("type") && jsonDelivery.has("type") && handlerMap.containsKey(jsonDelivery.getString("type")) && jsonDelivery.has("data")) {
+                    BaseHandler handler = handlerMap.get(jsonDelivery.getString("type"));
+                    handler.handle(jsonDelivery.getJSONObject("data"));
+                }
+                else {
+                    System.out.println("Main Error: " + jsonDelivery.toString());
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
             }
             channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
-
-
-
-
-
-//                HttpRequestWithBody request = Unirest.post(UNIQUISH_PUSH_URL);
-//                request.header("Content-Type", "application/x-www-form-urlencoded");
-//                MultipartBody body = request.field("service", "test")
-//                        .field("subscriber", "namhoon");
-//
-//                Iterator iterator = jsonMessage.keys();
-//                while (iterator.hasNext()) {
-//                    String key = iterator.next().toString();
-//                    Object o = jsonMessage.get(key);
-//                    body = body.field(key, o);
-//                }
-//                HttpResponse<JsonNode> response = body.asJson();
-//                System.out.println(response.getCode());
-//                System.out.println(response.getBody());
-//            } catch (Exception e) {
-//                System.out.println(e.getMessage());
-//            }
         }
     }
 }
