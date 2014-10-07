@@ -14,6 +14,7 @@ public class RabbitMQ {
 
     private static RabbitMQ instance = new RabbitMQ();
 
+    private Channel channel;
     private QueueingConsumer consumer;
 
     private RabbitMQ() {
@@ -24,7 +25,7 @@ public class RabbitMQ {
 
         try {
             Connection connection = factory.newConnection();
-            Channel channel = connection.createChannel();
+            channel = connection.createChannel();
             channel.queueDeclare(config.getString("rabbitmq.queue_name"), true, false, false, null);
             consumer = new QueueingConsumer(channel);
             channel.basicConsume(config.getString("rabbitmq.queue_name"), false, consumer);
@@ -39,5 +40,9 @@ public class RabbitMQ {
 
     public QueueingConsumer getConsumer() {
         return consumer;
+    }
+
+    public Channel getChannel() {
+        return channel;
     }
 }

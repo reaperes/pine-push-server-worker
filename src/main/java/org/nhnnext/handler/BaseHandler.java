@@ -1,4 +1,7 @@
 package org.nhnnext.handler;
 
-public class Handler {
+import org.json.JSONObject;
+
+public abstract class BaseHandler {
+    public abstract void handle(JSONObject jsonObject);
 }
