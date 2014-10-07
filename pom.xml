@@ -9,20 +9,32 @@
   <version>1.0-SNAPSHOT</version>
 
   <dependencies>
+    <!--rabbit mq-->
     <dependency>
       <groupId>com.rabbitmq</groupId>
       <artifactId>amqp-client</artifactId>
       <version>3.3.5</version>
     </dependency>
+
+    <!--super easy http request-->
     <dependency>
       <groupId>com.mashape.unirest</groupId>
       <artifactId>unirest-java</artifactId>
       <version>1.3.22</version>
     </dependency>
+
+    <!--simple json-->
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
       <version>20140107</version>
+    </dependency>
+
+    <!--read config file-->
+    <dependency>
+      <groupId>com.typesafe</groupId>
+      <artifactId>config</artifactId>
+      <version>1.2.1</version>
     </dependency>
   </dependencies>
 
