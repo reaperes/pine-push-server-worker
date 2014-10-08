@@ -4,11 +4,15 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.QueueingConsumer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.nhnnext.Config;
 
 import java.io.IOException;
 
 public class RabbitMQ {
+    private static final Logger logger = LogManager.getLogger(Config.class.getName());
+
     private static RabbitMQ instance = new RabbitMQ();
 
     private Channel channel;
@@ -27,7 +31,9 @@ public class RabbitMQ {
             consumer = new QueueingConsumer(channel);
             channel.basicConsume(config.getString("rabbitmq.queue_name"), false, consumer);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
+            logger.error("System is going to shutdown.");
+            System.exit(1);
         }
     }
 

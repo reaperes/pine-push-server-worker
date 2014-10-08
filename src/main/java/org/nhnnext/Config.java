@@ -9,10 +9,11 @@ public class Config {
 
     private static final String CONFIG_FILENAME = "application.conf";
 
-    private final com.typesafe.config.Config config = ConfigFactory.load(CONFIG_FILENAME);
+    private final com.typesafe.config.Config config;
 
     private Config() {
-        logger.info("create");
+        logger.info("Loading " + CONFIG_FILENAME);
+        config = ConfigFactory.load(CONFIG_FILENAME);
     }
 
     private static class LazyHolder {

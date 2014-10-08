@@ -10,6 +10,7 @@ import org.nhnnext.handler.MessageHandler;
 import org.nhnnext.handler.RegisterHandler;
 import org.nhnnext.rabbitmq.RabbitMQ;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,24 +26,27 @@ public class Main {
         Map<String, BaseHandler> handlerMap = new HashMap<String, BaseHandler>();
         handlerMap.put("/push/register", new RegisterHandler());
         handlerMap.put("/push/message", new MessageHandler());
-
+// todo refactoring
         logger.info("Service start");
         while (true) {
-            QueueingConsumer.Delivery delivery = consumer.nextDelivery();
-            JSONObject jsonDelivery = new JSONObject(new String(delivery.getBody()));
-            logger.info("Deliver message : " + jsonDelivery.toString());
             try {
-                if (jsonDelivery.has("type") && jsonDelivery.has("type") && handlerMap.containsKey(jsonDelivery.getString("type")) && jsonDelivery.has("data")) {
-                    BaseHandler handler = handlerMap.get(jsonDelivery.getString("type"));
-                    handler.handle(jsonDelivery.getJSONObject("data"));
+                QueueingConsumer.Delivery delivery = consumer.nextDelivery();
+                JSONObject jsonDelivery = new JSONObject(new String(delivery.getBody()));
+                logger.info("Deliver message : " + jsonDelivery.toString());
+                try {
+                    if (jsonDelivery.has("type") && jsonDelivery.has("type") && handlerMap.containsKey(jsonDelivery.getString("type")) && jsonDelivery.has("data")) {
+                        BaseHandler handler = handlerMap.get(jsonDelivery.getString("type"));
+                        handler.handle(jsonDelivery.getJSONObject("data"));
+                    } else {
+                        logger.error(jsonDelivery.toString());
+                    }
+                } catch (NullPointerException e) {
+                    logger.error(e.getMessage());
                 }
-                else {
-                    logger.error(jsonDelivery.toString());
-                }
-            } catch (NullPointerException e) {
-                logger.error(e.getMessage());
+                channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
+            } catch (Exception e) {
+
             }
-            channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
         }
     }
 }

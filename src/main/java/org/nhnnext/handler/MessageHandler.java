@@ -5,10 +5,14 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.request.HttpRequestWithBody;
 import com.mashape.unirest.request.body.MultipartBody;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 import org.nhnnext.Config;
 
 public class MessageHandler extends BaseHandler {
+    private static final Logger logger = LogManager.getLogger(MessageHandler.class.getName());
+
     private static Config config = Config.getInstance();
 
     private static final String UNIQUSH_BASE_URL = "http://" + config.getString("uniqush.host") + ":" + config.getInt("uniqush.port") + "/push";
@@ -29,10 +33,11 @@ public class MessageHandler extends BaseHandler {
                     .field("thread_id", jsonObject.get("thread_id"))
                     .field("comment_id", jsonObject.get("comment_id"));
             HttpResponse<JsonNode> response = body.asJson();
+            logger.info("Send to uniqush : " + jsonObject.toString());
             if (response.getCode() != 200)
-                System.out.println("Error");
+                logger.error("Uniqush server return code is not 200 : " + response.getCode() + " " + response.getBody());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception occured : " + e.getMessage());
         }
     }
 }

@@ -5,10 +5,14 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.request.HttpRequestWithBody;
 import com.mashape.unirest.request.body.MultipartBody;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 import org.nhnnext.Config;
 
 public class RegisterHandler extends BaseHandler {
+    private static final Logger logger = LogManager.getLogger(RegisterHandler.class.getName());
+
     private static Config config = Config.getInstance();
 
     private static final String UNIQUSH_BASE_URL = "http://" + config.getString("uniqush.host") + ":" + config.getInt("uniqush.port") + "/subscribe";
@@ -28,9 +32,10 @@ public class RegisterHandler extends BaseHandler {
                         .field("subscriber", jsonObject.getString("device_name"))
                         .field("pushservicetype", jsonObject.getString("device_type"))
                         .field("regid", jsonObject.getString("device_id"));
+                logger.info("Send to uniqush server : " + jsonObject.toString());
                 HttpResponse<JsonNode> response = body.asJson();
                 if (response.getCode() != 200)
-                    System.out.println("Error");
+                    logger.error("Uniqush server return code is not 200 : " + response.getCode() + " " + response.getBody());
             }
             else if (deviceType.equals("ios")) {
                 HttpRequestWithBody httpRequestWithBody = Unirest.post(UNIQUSH_BASE_URL);
@@ -40,15 +45,16 @@ public class RegisterHandler extends BaseHandler {
                         .field("subscriber", jsonObject.getString("device_name"))
                         .field("pushservicetype", jsonObject.getString("device_type"))
                         .field("devtoken", jsonObject.getString("device_id"));
+                logger.info("Send to uniqush server : " + jsonObject.toString());
                 HttpResponse<JsonNode> response = body.asJson();
                 if (response.getCode() != 200)
-                    System.out.println("Error");
+                    logger.error("Uniqush server return code is not 200 : " + response.getCode() + " " + response.getBody());
             }
             else {
-                System.out.println("RegisterHandler Error: " + deviceType);
+                logger.error("Register handler error : " + jsonObject.toString());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception occured");
         }
     }
 }
