@@ -45,7 +45,7 @@ public class Main {
                 }
                 channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
             } catch (Exception e) {
-
+                logger.error(e.getMessage());
             }
         }
     }
