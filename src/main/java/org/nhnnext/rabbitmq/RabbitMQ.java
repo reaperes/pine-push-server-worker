@@ -11,7 +11,7 @@ import org.nhnnext.Config;
 import java.io.IOException;
 
 public class RabbitMQ {
-    private static final Logger logger = LogManager.getLogger(Config.class.getName());
+    private static final Logger logger = LogManager.getLogger(RabbitMQ.class.getName());
 
     private static RabbitMQ instance = new RabbitMQ();
 
