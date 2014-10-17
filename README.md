@@ -28,6 +28,15 @@ Run
 
     $ mvn clean compile exec:java -Dexec.mainClass="org.nhnnext.Main" -Dexec.classpathScope=runtime
     
+    or
+    
+    $ sudo docker run \
+        -ti \
+        --name pine-push-server-worker \
+        --link rabbitmq:rabbitmq \
+        --link uniqush:uniqush \
+        reaperes/pine-push-server-worker
+    
 
 Documentation
 --------------
