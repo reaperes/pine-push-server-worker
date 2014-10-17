@@ -20,16 +20,15 @@ public class RabbitMQ {
 
     private RabbitMQ() {
         ConnectionFactory factory = new ConnectionFactory();
-        Config config = Config.getInstance();
-        factory.setHost(config.getString("rabbitmq.host"));
-        factory.setPort(config.getInt("rabbitmq.port"));
+        factory.setHost(Config.RABBITMQ_HOST);
+        factory.setPort(Config.RABBITMQ_PORT);
 
         try {
             Connection connection = factory.newConnection();
             channel = connection.createChannel();
-            channel.queueDeclare(config.getString("rabbitmq.queue_name"), true, false, false, null);
+            channel.queueDeclare(Config.RABBITMQ_QUEUE, true, false, false, null);
             consumer = new QueueingConsumer(channel);
-            channel.basicConsume(config.getString("rabbitmq.queue_name"), false, consumer);
+            channel.basicConsume(Config.RABBITMQ_QUEUE, false, consumer);
         } catch (IOException e) {
             logger.error(e.getMessage());
             logger.error("System is going to shutdown.");
