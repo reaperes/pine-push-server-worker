@@ -12,11 +12,15 @@ Preparation
 Pine-push-server-worker Environment Variables
 ----------------------------------------------
 
-| Name         | Default   | Description                 |
-|:------------:| --------- | --------------------------- |
-| UNIQUSH_HOST | localhost | Uniqush server host address |
-| UNIQUSH_PORT | 9898
-
+| Name            | Default   | Description                  |
+|:---------------:| :-------: | ---------------------------  |
+| UNIQUSH_HOST    | localhost | Uniqush server host address  |
+| UNIQUSH_PORT    | 9898      | Uniqush server port          |
+| UNIQUSH_SERVICE | pine      | Uniqush service name         |
+|                 |           |                              |
+| RABBITMQ_HOST   | localhost | RabbitMQ server host address |
+| RABBITMQ_PORT   | 5672      | RabbitMQ server node port    |
+| RABBITMQ_QUEUE  | pine      | RabbitMQ queue name          |
 
 
 Run
