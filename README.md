@@ -26,7 +26,7 @@ Pine-push-server-worker Environment Variables
 Run
 ----
 
-    $ mvn exec:java -Dexec.mainClass="org.nhnnext.Main" -Dexec.classpathScope=runtime
+    $ mvn clean compile exec:java -Dexec.mainClass="org.nhnnext.Main" -Dexec.classpathScope=runtime
     
 
 Documentation
