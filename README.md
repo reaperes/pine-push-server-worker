@@ -36,6 +36,7 @@ Run
         --link rabbitmq:rabbitmq \
         --link uniqush:uniqush \
         reaperes/pine-push-server-worker \
+        /start.sh
           --env dev
     
 
