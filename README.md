@@ -9,6 +9,16 @@ Preparation
 2. install maven
 
 
+Pine-push-server-worker Environment Variables
+----------------------------------------------
+
+| Name         | Default   | Description                 |
+|:------------:| --------- | --------------------------- |
+| UNIQUSH_HOST | localhost | Uniqush server host address |
+| UNIQUSH_PORT | 9898
+
+
+
 Run
 ----
 
