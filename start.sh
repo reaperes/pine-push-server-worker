@@ -1,5 +1,25 @@
 #!/bin/bash
 
+# Parse arguments
+while [[ $# > 1 ]]
+do
+  key="$1"
+  shift
+
+  case "$key" in
+    --env)
+    export PUSH_SERVER_WORKER_ENV="$1"
+    shift
+    ;;
+
+    *)
+    echo "Unknown option detected : $key"
+    exit 1
+    ;;
+
+esac
+done
+
 # Clone source if directory does not exists
 if [ ! -d "$HOME/pine-push-server-worker" ]; then
   git clone https://github.com/reaperes/pine-push-server-worker.git $HOME/pine-push-server-worker
