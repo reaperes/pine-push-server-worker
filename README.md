@@ -35,7 +35,8 @@ Run
         --name pine-push-server-worker \
         --link rabbitmq:rabbitmq \
         --link uniqush:uniqush \
-        reaperes/pine-push-server-worker
+        reaperes/pine-push-server-worker \
+          --env dev
     
 
 Documentation
