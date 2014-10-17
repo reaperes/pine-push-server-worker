@@ -28,11 +28,11 @@ public class RegisterHandler extends BaseHandler {
         MultipartBody body;
         switch (deviceType) {
             case "android":
-                body = generateAndroidBody(subscriber, deviceType, deviceId);
+                body = generateAndroidBody(subscriber, deviceId);
                 break;
 
             case "ios":
-                body = generateIosBody(subscriber, deviceType, deviceId);
+                body = generateIosBody(subscriber, deviceId);
                 break;
 
             default:
@@ -50,23 +50,23 @@ public class RegisterHandler extends BaseHandler {
         }
     }
 
-    private MultipartBody generateAndroidBody(String subscriber, String deviceType, String deviceId) {
+    private MultipartBody generateAndroidBody(String subscriber, String deviceId) {
         HttpRequestWithBody httpRequestWithBody = Unirest.post(UNIQUSH_BASE_URL);
         httpRequestWithBody.header("Content-Type", "application/x-www-form-urlencoded");
         return httpRequestWithBody
                 .field("service", Config.UNIQUSH_SERVICE)
                 .field("subscriber", subscriber)
-                .field("pushservicetype", deviceType)
+                .field("pushservicetype", "gcm")
                 .field("regid", deviceId);
     }
 
-    private MultipartBody generateIosBody(String subscriber, String deviceType, String deviceId) {
+    private MultipartBody generateIosBody(String subscriber, String deviceId) {
         HttpRequestWithBody httpRequestWithBody = Unirest.post(UNIQUSH_BASE_URL);
         httpRequestWithBody.header("Content-Type", "application/x-www-form-urlencoded");
         return httpRequestWithBody
                 .field("service", Config.UNIQUSH_SERVICE)
                 .field("subscriber", subscriber)
-                .field("pushservicetype", deviceType)
+                .field("pushservicetype", "apns")
                 .field("devtoken", deviceId);
     }
 }
