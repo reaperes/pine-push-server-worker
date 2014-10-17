@@ -3,5 +3,5 @@ package org.nhnnext.handler;
 import org.json.JSONObject;
 
 public abstract class BaseHandler {
-    public abstract void handle(JSONObject jsonObject);
+    public abstract void handle(JSONObject jsonObject) throws HandlerException;
 }
